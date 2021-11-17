@@ -1,0 +1,11 @@
+.profile__button-add {
+  height: min-content;
+  padding: 12px 62px;
+  border: 2px solid #FFFFFF;
+  border-radius: 2px;
+  justify-self: end;
+}
+
+.profile__button-add:hover {
+    opacity: 0.6;
+  }

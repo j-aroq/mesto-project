@@ -1,0 +1,9 @@
+.profile__button-edit {
+  align-self: end;
+  padding: 6px;
+  border: 1px solid #FFFFFF;
+}
+
+.profile__button-edit:hover {
+  opacity: 0.6;
+}
