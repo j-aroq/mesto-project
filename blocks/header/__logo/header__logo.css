@@ -7,6 +7,7 @@
   .header__logo {
     max-width: 104px;
     margin-bottom: 32px;    
-    padding-left: 27px;
+    padding-left: calc(((100vw - 282px)/2) + 8px);
+    /* padding-left: 27px; */
   }
 }
