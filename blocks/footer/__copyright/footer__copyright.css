@@ -5,3 +5,11 @@
   color: #545454;
   margin: 0;
 }
+
+@media (max-width: 630px) {
+  .footer__copyright {
+    padding-left: calc((100vw - 282px)/2);
+    font-size: 14px;
+    line-height: 17px;
+  }
+}

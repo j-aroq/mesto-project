@@ -1,6 +1,13 @@
 .header {
-  width: 880px;
+  max-width: 880px;
   border-bottom: 1px solid rgba(84, 84, 84, .7); 
   padding-top: 45px;
   display: flex;
+}
+
+@media (max-width: 630px) {
+  .header {
+    width: 100vw;
+    padding-top: 28px;
+  }
 }

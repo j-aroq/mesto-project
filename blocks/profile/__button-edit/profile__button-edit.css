@@ -1,4 +1,5 @@
 .profile__button-edit {
+  width: 10px;
   align-self: end;
   padding: 6px;
   border: 1px solid #FFFFFF;
@@ -6,4 +7,11 @@
 
 .profile__button-edit:hover {
   opacity: 0.6;
+}
+
+@media (max-width: 920px) {
+  .profile__button-edit {
+    width: 7.5px;
+    padding: 4.25px;
+  }
 }

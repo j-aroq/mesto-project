@@ -1,0 +1,19 @@
+.popup__button-exit {
+  width: 32px;
+  position: absolute;
+  right: -40px;
+  top: -40px;
+}
+
+.popup__button-exit:hover {
+  opacity: 0.6;
+}
+
+@media (max-width: 630px) {
+  .popup__button-exit {
+    width: 20px;
+    position: absolute;
+    right: 0;
+    top: -36px;
+  }
+}

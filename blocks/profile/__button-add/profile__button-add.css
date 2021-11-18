@@ -1,5 +1,6 @@
 .profile__button-add {
   height: min-content;
+  width: 22px;
   padding: 12px 62px;
   border: 2px solid #FFFFFF;
   border-radius: 2px;
@@ -8,4 +9,17 @@
 
 .profile__button-add:hover {
     opacity: 0.6;
+  }
+
+  @media (max-width: 920px) {
+    .profile__button-add {
+      width: 16px;
+    }
+  }
+
+  @media (max-width: 630px) {
+    .profile__button-add {
+      padding: 13px 131px;
+      justify-self: center;
+    }
   }

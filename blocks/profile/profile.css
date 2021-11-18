@@ -5,3 +5,12 @@
   grid-template-columns: repeat(2, min-content) 1fr;
   align-items: center;
 }
+
+@media (max-width: 630px) {
+  .profile {
+    margin-top: 42px;
+    margin-bottom: 36px;
+    grid-template-columns: 1fr;
+    justify-items: center;      
+  }
+}
