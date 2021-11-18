@@ -15,3 +15,5 @@
 Не забудьте [оптимизировать картинки](https://tinypng.com/), чтобы ваш сайт загружался быстрее.
 
 Удачи!
+
+https://j-aroq.github.io/mesto-project/index.html
