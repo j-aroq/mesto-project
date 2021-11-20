@@ -2,13 +2,21 @@
   margin: 0;
   font-weight: 500;
   font-size: 42px;
-  line-height: 33px;    
+  line-height: 48px;    
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @media (max-width: 920px) {
   .profile__name {
     font-size: 27px;
-    line-height: 20px;    
+    line-height: 33px;    
   }
 }
 
+@media (max-width: 630px) {
+  .profile__name {
+    max-width: 190px;
+  }
+}

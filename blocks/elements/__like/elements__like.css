@@ -2,6 +2,10 @@
   width: 22px;
   height: 19px;
   background-image: url(../../../images/element-like.svg);
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  background-color: transparent;
 }
 
 .elements__like:hover {

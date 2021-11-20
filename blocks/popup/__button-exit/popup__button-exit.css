@@ -1,8 +1,14 @@
 .popup__button-exit {
   width: 32px;
+  height: 32px;
   position: absolute;
   right: -40px;
   top: -40px;
+  background-image: url(../../../images/popup-close-icon.svg);
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  cursor: pointer;
 }
 
 .popup__button-exit:hover {
@@ -12,6 +18,7 @@
 @media (max-width: 630px) {
   .popup__button-exit {
     width: 20px;
+    height: 20px;
     position: absolute;
     right: 0;
     top: -36px;

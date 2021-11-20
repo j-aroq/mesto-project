@@ -1,8 +1,13 @@
 .profile__button-edit {
-  width: 10px;
-  align-self: end;
-  padding: 6px;
+  background-size: 10px;
+  align-self: center;
+  padding: 11px;
   border: 1px solid #FFFFFF;
+  background-image: url(../../../images/profile-button-edit.svg);
+  cursor: pointer;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .profile__button-edit:hover {
@@ -11,7 +16,7 @@
 
 @media (max-width: 920px) {
   .profile__button-edit {
-    width: 7.5px;
-    padding: 4.25px;
+    background-size: 7.5px;
+    padding: 8px;
   }
 }

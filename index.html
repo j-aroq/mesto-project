@@ -21,72 +21,76 @@
       <img class="profile__avatar" src="./images/profile-avatar.jpg" alt="фото профиля">
       <div class="profile__info">
         <h1 class="profile__name">Жак-Ив Кусто</h1>
-        <img class="profile__button-edit" src="./images/profile-button-edit.svg" alt="кнопка редактирования">
+        <button class="profile__button-edit"></button>
         <h2 class="profile__profession">Исследователь океана</h2> 
       </div>
-      <img class="profile__button-add" src="./images/profile-button-add.svg" alt="кнопка добавления">
+      <button class="profile__button-add"></button>
     </section>
     <!-- elements -->
-    <section class="elements">
-      <div class="elements__element">
-        <img class="elements__image" src="./images/element-baikal.jpeg" alt="Озеро Байкал">
-        <div class="elements__title-row">
-          <h2 class="elements__title">Озеро Байкал</h2>
-          <div class="elements__like"></div>
-        </div>
-      </div>
-      <div class="elements__element">
-        <img class="elements__image" src="./images/element-elbrus.jpg" alt="Гора Эльбрус вдалеке">
-        <div class="elements__title-row">
-          <h2 class="elements__title">Гора Эльбрус</h2>
-          <div class="elements__like"></div>
-        </div>
-      </div>
-      <div class="elements__element">
-        <img class="elements__image" src="./images/element-dombay.jpg" alt="Домбай">
-        <div class="elements__title-row">
-          <h2 class="elements__title">Домбай</h2>
-          <div class="elements__like"></div>
-        </div>
-      </div>
-      <div class="elements__element">
-        <img class="elements__image" src="./images/element-krym.jpeg" alt="Крым">
-        <div class="elements__title-row">
-          <h2 class="elements__title">Крым</h2>
-          <div class="elements__like"></div>
-        </div>
-      </div>
-      <div class="elements__element">
-        <img class="elements__image" src="./images/element-siberia.jpeg" alt="Природа Сибири">
-        <div class="elements__title-row">
-        <h2 class="elements__title">Сибирь</h2>
-          <div class="elements__like"></div>
-        </div>
-      </div>
-      <div class="elements__element">
-        <img class="elements__image" src="./images/element-karachaevsk.jpg" alt="Карачаево-Черкесия">
-        <div class="elements__title-row">
-          <h2 class="elements__title">Карачаево-Черкесия</h2>
-          <div class="elements__like"></div>
-        </div>
-      </div>
+    <section>
+      <ul class="elements">
+        <li class="elements__element">
+          <img class="elements__image" src="./images/element-baikal.jpeg" alt="Озеро Байкал">
+          <div class="elements__title-row">
+            <h2 class="elements__title">Озеро Байкал</h2>
+            <button class="elements__like"></button>
+          </div>
+        </li>
+        <li class="elements__element">
+          <img class="elements__image" src="./images/element-elbrus.jpg" alt="Гора Эльбрус вдалеке">
+          <div class="elements__title-row">
+            <h2 class="elements__title">Гора Эльбрус</h2>
+            <button class="elements__like"></button>
+          </div>
+        </li>
+        <li class="elements__element">
+          <img class="elements__image" src="./images/element-dombay.jpg" alt="Домбай">
+          <div class="elements__title-row">
+            <h2 class="elements__title">Домбай</h2>
+            <button class="elements__like"></button>
+          </div>
+        </li>
+        <li class="elements__element">
+          <img class="elements__image" src="./images/element-krym.jpeg" alt="Крым">
+          <div class="elements__title-row">
+            <h2 class="elements__title">Крым</h2>
+            <button class="elements__like"></button>
+          </div>
+        </li>
+        <li class="elements__element">
+          <img class="elements__image" src="./images/element-siberia.jpeg" alt="Природа Сибири">
+          <div class="elements__title-row">
+          <h2 class="elements__title">Сибирь</h2>
+            <button class="elements__like"></button>
+          </div>
+        </li>
+        <li class="elements__element">
+          <img class="elements__image" src="./images/element-karachaevsk.jpg" alt="Карачаево-Черкесия">
+          <div class="elements__title-row">
+            <h2 class="elements__title">Карачаево-Черкесия</h2>
+            <button class="elements__like"></button>
+          </div>
+        </li>
+      </ul>
     </section>
-  <!-- popup -->
-  <section class="popup">
-  <!-- <section class="popup popup_opened"> -->
-      <form class="popup__container">
-      <img class="popup__button-exit" src="./images/popup-close-icon.svg" alt="кнопка закрытия формы">
-      <h2 class="popup__title">Редактировать профиль</h2>
-      <fieldset class="popup__input-form">
-        <input type="text" name="profile-name" class="popup__input-item" placeholder="Жак-Ив Кусто" required>
-        <input type="text" name="profession" class="popup__input-item" placeholder="Исследователь океана">
-      </fieldset>
-      <button type="submit" class="popup__button">Сохранить</button>
-    </form> 
-  </section>
   </main>
   <!-- footer -->
   <footer class="footer">
     <p class="footer__copyright">&copy; 2021 Mesto Russia</p>
   </footer>
+  <!-- popup -->
+  <section class="popup">
+  <!-- <section class="popup popup_opened"> -->
+    <div class="popup__container">
+      <button class="popup__button-exit"></button>
+      <form name="profile-info">
+        <h2 class="popup__title">Редактировать профиль</h2>
+        <fieldset class="popup__input-form">
+          <input type="text" name="profile-name" class="popup__input-item" placeholder="Жак-Ив Кусто" required>
+          <input type="text" name="profession" class="popup__input-item" placeholder="Исследователь океана">
+        </fieldset>
+      <button type="submit" class="popup__button">Сохранить</button>
+    </form> 
+  </div> 
+  </section>
 </body>

@@ -1,13 +1,23 @@
 .profile__info {
   margin-left: 30px;
   display: grid;
-  grid-template-columns: max-content auto;
+  grid-template-columns: minmax(294px, max-content) auto;
   grid-template-rows: repeat(2, min-content);
   gap: 16px 18px;
+  /* white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; */
+}
+
+@media (max-width: 920px) {
+  .profile__info {
+    grid-template-columns: minmax(200px, max-content) auto;
+  }
 }
 
 @media (max-width: 630px) {
   .profile__info {
+    grid-template-columns: minmax(190px, max-content) auto;
     margin: 26px 0 36px;
     justify-items: center;
     gap: 14px 10px;

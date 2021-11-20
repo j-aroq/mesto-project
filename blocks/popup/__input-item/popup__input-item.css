@@ -18,13 +18,13 @@
   color: #000000;
 }
 
-popup__input-item::-moz-placeholder {
-    color: #000000;
-  }
+.popup__input-item::-moz-placeholder {
+  color: #000000;
+}
 
-  popup__input-item::-webkit-input-placeholder {
-    color: #000000;
-  }
+.popup__input-item::-webkit-input-placeholder {
+  color: #000000;
+}
 
 .popup__input-item:focus {
   outline: none;
