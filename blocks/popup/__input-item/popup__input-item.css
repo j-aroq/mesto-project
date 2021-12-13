@@ -14,7 +14,7 @@
   margin-bottom: 0;
 }
 
-.popup__input-item::placeholder {
+/* .popup__input-item::placeholder {
   color: #000000;
 }
 
@@ -24,7 +24,7 @@
 
 .popup__input-item::-webkit-input-placeholder {
   color: #000000;
-}
+} */
 
 .popup__input-item:focus {
   outline: none;

@@ -29,7 +29,8 @@
     <!-- elements -->
     <section>
       <ul class="elements">
-        <li class="elements__element">
+        <!-- <li class="elements__element">
+          <button class="elements__delete"></button>
           <img class="elements__image" src="./images/element-baikal.jpeg" alt="Озеро Байкал">
           <div class="elements__title-row">
             <h2 class="elements__title">Озеро Байкал</h2>
@@ -37,6 +38,7 @@
           </div>
         </li>
         <li class="elements__element">
+          <button class="elements__delete"></button>
           <img class="elements__image" src="./images/element-elbrus.jpg" alt="Гора Эльбрус вдалеке">
           <div class="elements__title-row">
             <h2 class="elements__title">Гора Эльбрус</h2>
@@ -44,6 +46,7 @@
           </div>
         </li>
         <li class="elements__element">
+          <button class="elements__delete"></button>
           <img class="elements__image" src="./images/element-dombay.jpg" alt="Домбай">
           <div class="elements__title-row">
             <h2 class="elements__title">Домбай</h2>
@@ -51,6 +54,7 @@
           </div>
         </li>
         <li class="elements__element">
+          <button class="elements__delete"></button>
           <img class="elements__image" src="./images/element-krym.jpeg" alt="Крым">
           <div class="elements__title-row">
             <h2 class="elements__title">Крым</h2>
@@ -58,6 +62,7 @@
           </div>
         </li>
         <li class="elements__element">
+          <button class="elements__delete"></button>
           <img class="elements__image" src="./images/element-siberia.jpeg" alt="Природа Сибири">
           <div class="elements__title-row">
           <h2 class="elements__title">Сибирь</h2>
@@ -65,12 +70,12 @@
           </div>
         </li>
         <li class="elements__element">
-          <img class="elements__image" src="./images/element-karachaevsk.jpg" alt="Карачаево-Черкесия">
+          <button class="elements__delete"></button>
           <div class="elements__title-row">
             <h2 class="elements__title">Карачаево-Черкесия</h2>
             <button class="elements__like"></button>
           </div>
-        </li>
+        </li> -->
       </ul>
     </section>
   </main>
@@ -78,19 +83,52 @@
   <footer class="footer">
     <p class="footer__copyright">&copy; 2021 Mesto Russia</p>
   </footer>
-  <!-- popup -->
-  <section class="popup">
-  <!-- <section class="popup popup_opened"> -->
+  <!-- popup  edit -->
+  <section id="popup-edit" class="popup">
     <div class="popup__container">
       <button class="popup__button-exit"></button>
-      <form name="profile-info">
+      <form name="profile-info" class="popup__form">
         <h2 class="popup__title">Редактировать профиль</h2>
         <fieldset class="popup__input-form">
-          <input type="text" name="profile-name" class="popup__input-item" placeholder="Жак-Ив Кусто" required>
-          <input type="text" name="profession" class="popup__input-item" placeholder="Исследователь океана">
+          <input type="text" name="profile-name" class="popup__input-item popup__input-item_type_name" placeholder="Имя" required>
+          <input type="text" name="profession" class="popup__input-item popup__input-item_type_profession" placeholder="Профессия">
         </fieldset>
-      <button type="submit" class="popup__button">Сохранить</button>
-    </form> 
-  </div> 
+        <button type="submit" class="popup__button">Сохранить</button>
+      </form> 
+    </div> 
   </section>
+  <!-- popup add -->
+  <section id="popup-add" class="popup">
+    <div class="popup__container">
+      <button class="popup__button-exit"></button>
+      <form name="new-place" class="popup__form">
+        <h2 class="popup__title">Новое место</h2>
+        <fieldset class="popup__input-form">
+          <input type="text" name="card-name" class="popup__input-item popup__input-item_type_card-name" placeholder="Название" required>
+          <input type="text" name="card-url" class="popup__input-item popup__input-item_type_link" placeholder="Ссылка на картинку" required>
+        </fieldset>
+        <button type="submit" class="popup__button">Создать</button>
+      </form> 
+    </div> 
+  </section>
+  <!-- popup image open -->
+  <section class="popup-image">
+    <div class="popup-image__container">
+      <img class="popup-image__image" src="" alt="">  
+      <button class="popup__button-exit"></button>
+      <h2 class="popup-image__title"></h2>
+    </div>
+  </section>
+  <!-- шаблон карточки -->
+  <template id="card">
+    <li class="elements__element">
+      <button class="elements__delete"></button>
+      <img class="elements__image">
+      <div class="elements__title-row">
+          <h2 class="elements__title"></h2>
+          <button class="elements__like"></button>
+      </div>
+    </li> 
+  </template>
+  <script src="./scripts/index.js"></script>
 </body>

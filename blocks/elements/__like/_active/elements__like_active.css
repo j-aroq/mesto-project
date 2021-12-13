@@ -1,0 +1,4 @@
+.elements__like_active {
+    background-image: url(../../../../images/element-like-dark.svg);
+    opacity: 1;
+}
