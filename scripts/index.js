@@ -16,12 +16,12 @@ const exitButtonEditForm = popupEdit.querySelector('.popup__button-exit');
 const popupAdd = document.querySelector('#popup-add');
 const formAddElement =  popupAdd.querySelector('.popup__form');
 const cardNameInput = formAddElement.querySelector('.popup__input-item_type_card-name');
-const LinkInput = formAddElement.querySelector('.popup__input-item_type_link');
+const linkInput = formAddElement.querySelector('.popup__input-item_type_link');
 const exitButtonAddForm = popupAdd.querySelector('.popup__button-exit');
 
-const popupOpenImage = document.querySelector('.popup-image');
-const popupImage =  popupOpenImage.querySelector('.popup-image__image');
-const popupImageTitle =  popupOpenImage.querySelector('.popup-image__title');
+const popupOpenImage = document.querySelector('#popup-image');
+const popupImage =  popupOpenImage.querySelector('.popup__image');
+const popupImageTitle =  popupOpenImage.querySelector('.popup__image-title');
 const exitButtonImageForm = popupOpenImage.querySelector('.popup__button-exit');
 
 
@@ -53,10 +53,16 @@ const initialCards = [
   }
   ];
 
-initialCards.forEach((item) => {
+function createCard(link, name) {
   const cardElement = cardTemplate.querySelector('.elements__element').cloneNode(true);
-  cardElement.querySelector('.elements__image').src = item.link;
-  cardElement.querySelector('.elements__title').textContent = item.name;
+  cardElement.querySelector('.elements__image').src = link;
+  cardElement.querySelector('.elements__image').alt = name;
+  cardElement.querySelector('.elements__title').textContent = name;
+  return cardElement;
+}
+  
+initialCards.forEach((item) => {
+  const cardElement = createCard(item.link, item.name);
   cards.append(cardElement);
 
   likeCard(cardElement);
@@ -64,9 +70,17 @@ initialCards.forEach((item) => {
   openCardImage(cardElement);
 });
 
+function openPopup(popup) {
+  popup.classList.add('popup_opened');
+}
+
+function closePopup(popup) {
+  popup.classList.remove('popup_opened');
+}
+
 function openCardImage(cardElement) {
   cardElement.querySelector('.elements__image').addEventListener('click', function () {
-    popupOpenImage.classList.add('popup-image_opened');
+    openPopup(popupOpenImage);
     popupImage.src = cardElement.querySelector('.elements__image').src;
     popupImageTitle.textContent = cardElement.querySelector('.elements__title').textContent;
   }); 
@@ -80,62 +94,59 @@ function likeCard(cardElement) {
 
 function deleteCard(cardElement) {
   cardElement.querySelector('.elements__delete').addEventListener('click', function (evt) {
-    const cardItem = evt.target.parentElement;
-    cardItem.remove(cardElement);
+    cardElement.remove();
   });
 }
 
 //edit profile
 editButton.addEventListener('click', function() {
-  popupEdit.classList.add('popup_opened');
+  openPopup(popupEdit);
   nameInput.value = profileName.textContent;
   jobInput.value = profession.textContent; 
 });
 
 exitButtonEditForm.addEventListener('click', function() { 
-  popupEdit.classList.remove('popup_opened');
+  closePopup(popupEdit);
 });
   
-function formSubmitHandler (evt) {
+function SubmitHandler (evt) {
   evt.preventDefault(); 
   profileName.textContent = nameInput.value;
   profession.textContent = jobInput.value; 
-  popupEdit.classList.remove('popup_opened');
+  closePopup(popupEdit);
 }
-formElement.addEventListener('submit', formSubmitHandler);
+formElement.addEventListener('submit', SubmitHandler);
 
 //add foto
 
 addButton.addEventListener('click', function() { 
-  popupAdd.classList.add('popup_opened');
+  openPopup(popupAdd);
 });
 
 exitButtonAddForm.addEventListener('click', function() { 
-    popupAdd.classList.remove('popup_opened');
-    LinkInput.value = "";
+    closePopup(popupAdd);
+    linkInput.value = "";
     cardNameInput.value = "";
 });
 
-function formSubmitFotoHandler (evt) {
+function SubmitFotoHandler (evt) {
     evt.preventDefault();
-    const cardElement = cardTemplate.querySelector('.elements__element').cloneNode(true);
-    cardElement.querySelector('.elements__image').src = LinkInput.value;
-    cardElement.querySelector('.elements__title').textContent = cardNameInput.value;
+    const cardElement = createCard(linkInput.value, cardNameInput.value);
     cards.prepend(cardElement);
     
     likeCard(cardElement);
     deleteCard(cardElement);
     openCardImage(cardElement);
 
-    popupAdd.classList.remove('popup_opened');
-    LinkInput.value = "";
+    closePopup(popupAdd);
+    linkInput.value = "";
     cardNameInput.value = "";
 }
-formAddElement.addEventListener('submit', formSubmitFotoHandler);
+formAddElement.addEventListener('submit', SubmitFotoHandler);
 
-//open foto
+// open foto
 exitButtonImageForm.addEventListener('click', function() { 
-  popupOpenImage.classList.remove('popup-image_opened');
+  closePopup(popupOpenImage);
   popupImage.src = "";
   popupImageTitle.textContent = "";
 });
