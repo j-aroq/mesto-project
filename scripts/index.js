@@ -58,16 +58,15 @@ function createCard(link, name) {
   cardElement.querySelector('.elements__image').src = link;
   cardElement.querySelector('.elements__image').alt = name;
   cardElement.querySelector('.elements__title').textContent = name;
+  likeCard(cardElement);
+  deleteCard(cardElement);
+  openCardImage(cardElement);
   return cardElement;
 }
   
 initialCards.forEach((item) => {
   const cardElement = createCard(item.link, item.name);
   cards.append(cardElement);
-
-  likeCard(cardElement);
-  deleteCard(cardElement);
-  openCardImage(cardElement);
 });
 
 function openPopup(popup) {
@@ -82,6 +81,7 @@ function openCardImage(cardElement) {
   cardElement.querySelector('.elements__image').addEventListener('click', function () {
     openPopup(popupOpenImage);
     popupImage.src = cardElement.querySelector('.elements__image').src;
+    popupImage.alt = cardElement.querySelector('.elements__image').textContent;
     popupImageTitle.textContent = cardElement.querySelector('.elements__title').textContent;
   }); 
 }
@@ -109,13 +109,13 @@ exitButtonEditForm.addEventListener('click', function() {
   closePopup(popupEdit);
 });
   
-function SubmitHandler (evt) {
+function submitHandler (evt) {
   evt.preventDefault(); 
   profileName.textContent = nameInput.value;
   profession.textContent = jobInput.value; 
   closePopup(popupEdit);
 }
-formElement.addEventListener('submit', SubmitHandler);
+formElement.addEventListener('submit', submitHandler);
 
 //add foto
 
@@ -129,20 +129,15 @@ exitButtonAddForm.addEventListener('click', function() {
     cardNameInput.value = "";
 });
 
-function SubmitFotoHandler (evt) {
+function submitFotoHandler (evt) {
     evt.preventDefault();
     const cardElement = createCard(linkInput.value, cardNameInput.value);
     cards.prepend(cardElement);
-    
-    likeCard(cardElement);
-    deleteCard(cardElement);
-    openCardImage(cardElement);
-
     closePopup(popupAdd);
     linkInput.value = "";
     cardNameInput.value = "";
 }
-formAddElement.addEventListener('submit', SubmitFotoHandler);
+formAddElement.addEventListener('submit', submitFotoHandler);
 
 // open foto
 exitButtonImageForm.addEventListener('click', function() { 
