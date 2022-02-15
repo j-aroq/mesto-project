@@ -7,6 +7,7 @@ const profession = profile.querySelector('.profile__profession');
 const editButton = profile.querySelector('.profile__button-edit');
 const addButton = profile.querySelector('.profile__button-add');
 
+const popupOverlay = document.querySelectorAll('.popup');
 const popupEdit = document.querySelector('#popup-edit');
 const formElement =  popupEdit.querySelector('.popup__form');
 const nameInput = formElement.querySelector('.popup__input-item_type_name');
@@ -76,6 +77,25 @@ function openPopup(popup) {
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
 }
+
+// закрытие попапов по клику на оверлей
+popupOverlay.forEach(function(item) {
+  item.addEventListener('click', function (evt) {
+    closePopup(evt.target);
+  });
+});
+
+// закрытие попапов по нажатию Esc
+document.addEventListener('keydown', function (evt) {
+  if (evt.key === 'Escape') {
+    popupOverlay.forEach(function(item) {
+      if (item.classList.contains('popup_opened')) {
+        closePopup(item);          
+      }
+    });
+  }
+});
+
 
 function openCardImage(cardElement) {
   cardElement.querySelector('.elements__image').addEventListener('click', function () {
