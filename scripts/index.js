@@ -76,6 +76,21 @@ function closePopup(popup) {
   popup.classList.remove('popup_opened');
   if (popup.querySelector('.popup__form') !== null) {
     popup.querySelector('.popup__form').reset();
+    //сброс настроек валидации для корректного открытия попапа вновь
+    const buttonElement = popup.querySelector('.popup__button');
+    buttonElement.disabled = true;
+    buttonElement.classList.add('popup__button_disabled');
+    popup.querySelectorAll('.popup__input-item').forEach((inputElement) => {
+      if (inputElement.classList.contains('popup__input-item_type_error')) {
+        inputElement.classList.remove('popup__input-item_type_error');        
+      }
+    });
+    popup.querySelectorAll('.popup__error').forEach((errorElement) => {
+      if (errorElement.classList.contains('popup__error_visible')) {
+        errorElement.classList.remove('popup__error_visible');        
+        errorElement.textContent = '';
+      }
+    });
   }
 }
 
@@ -156,3 +171,73 @@ exitButton.forEach( function (item) {
     closePopup(item.closest('.popup'));
   });    
 })
+
+//валидация форм 
+const showInputError = (param, formElement, inputElement, errorMessage) => {
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  inputElement.classList.add(param.inputErrorClass);
+  errorElement.textContent = errorMessage;
+  errorElement.classList.add(param.errorClass);
+};
+
+const hideInputError = (param, formElement, inputElement) => {
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  inputElement.classList.remove(param.inputErrorClass);
+  errorElement.classList.remove(param.errorClass);
+  errorElement.textContent = '';
+};
+
+const checkInputValidity = (param, formElement, inputElement) => {
+  if (!inputElement.validity.valid) {
+    showInputError(param, formElement, inputElement, inputElement.validationMessage);
+  } else {
+    hideInputError(param, formElement, inputElement);
+  }
+};
+
+const hasInvalidInput = (inputList) => {
+  return inputList.some((inputElement) => {
+    return !inputElement.validity.valid;
+  });
+};
+
+const toggleButtonState = (param, inputList, buttonElement) => {
+  if (hasInvalidInput(inputList)) {
+    buttonElement.disabled = true;
+    buttonElement.classList.add(param.inactiveButtonClass);
+  } else {
+    buttonElement.disabled = false;
+    buttonElement.classList.remove(param.inactiveButtonClass);
+  }
+};
+
+const setEventListeners = (param, formElement) => {
+  const inputList = Array.from(formElement.querySelectorAll(param.inputSelector));
+  const buttonElement = formElement.querySelector(param.submitButtonSelector);
+  toggleButtonState(param, inputList, buttonElement);
+  inputList.forEach((inputElement) => {
+    inputElement.addEventListener('input', function () {
+      checkInputValidity(param, formElement, inputElement);
+      toggleButtonState(param, inputList, buttonElement);
+    });
+  });
+};
+
+const enableValidation = (param) => {
+  const formList = Array.from(document.querySelectorAll(param.formSelector));
+  formList.forEach((formElement) => {
+    formElement.addEventListener('submit', function (evt) {
+      evt.preventDefault();
+    });
+    setEventListeners(param, formElement);     
+  });
+};
+
+enableValidation({
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input-item',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input-item_type_error',
+  errorClass: 'popup__error_visible'
+});

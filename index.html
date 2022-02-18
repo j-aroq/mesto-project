@@ -40,13 +40,19 @@
   <section id="popup-edit" class="popup popup_opacity_medium">
     <div class="popup__container">
       <button class="popup__button-exit"></button>
-      <form name="profile-info" class="popup__form">
+      <form name="profile-info" class="popup__form" novalidate>
         <h2 class="popup__title">Редактировать профиль</h2>
-        <fieldset class="popup__input-form">
-          <input type="text" name="profile-name" class="popup__input-item popup__input-item_type_name" placeholder="Имя" required>
-          <input type="text" name="profession" class="popup__input-item popup__input-item_type_profession" placeholder="Профессия">
+        <fieldset class="popup__fieldset">
+          <label for="profile-name" class="popup__fieldset-item">
+            <input type="text" name="profile-name" id="profile-name" class="popup__input-item popup__input-item_type_name" placeholder="Имя" minlength="2" maxlength="40" required>
+            <span class="popup__error profile-name-error"></span>
+          </label>
+          <label for="profession" class="popup__fieldset-item">
+            <input type="text" name="profession" id="profession" class="popup__input-item popup__input-item_type_profession" placeholder="Профессия" minlength="2" maxlength="200" required>
+            <span class="popup__error profession-error"></span>
+          </label>
         </fieldset>
-        <button type="submit" class="popup__button">Сохранить</button>
+        <button type="submit" class="popup__button" disabled>Сохранить</button>
       </form> 
     </div> 
   </section>
@@ -54,13 +60,19 @@
   <section id="popup-add" class="popup popup_opacity_medium">
     <div class="popup__container">
       <button class="popup__button-exit"></button>
-      <form name="new-place" class="popup__form">
+      <form name="new-place" class="popup__form" novalidate>
         <h2 class="popup__title">Новое место</h2>
-        <fieldset class="popup__input-form">
-          <input type="text" name="card-name" class="popup__input-item popup__input-item_type_card-name" placeholder="Название" required>
-          <input type="text" name="card-url" class="popup__input-item popup__input-item_type_link" placeholder="Ссылка на картинку" required>
+        <fieldset class="popup__fieldset">
+          <label for="card-name" class="popup__fieldset-item">
+            <input type="text" name="card-name" id="card-name" class="popup__input-item popup__input-item_type_card-name" placeholder="Название" minlength="2" maxlength="30" required>
+            <span class="popup__error card-name-error"></span>
+          </label>
+          <label for="card-url" class="popup__fieldset-item">
+            <input type="url" name="card-url" id="card-url" class="popup__input-item popup__input-item_type_link" placeholder="Ссылка на картинку" required>
+            <span class="popup__error card-url-error"></span>
+          </label>
         </fieldset>
-        <button type="submit" class="popup__button">Создать</button>
+        <button type="submit" class="popup__button" disabled>Создать</button>
       </form> 
     </div> 
   </section>
