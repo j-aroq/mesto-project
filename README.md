@@ -12,3 +12,4 @@ https://j-aroq.github.io/mesto-project/index.html
 * Flex
 * Grid
 * JS
+* Webpack

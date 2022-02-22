@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./pages/index.css">
+  <!-- <link rel="stylesheet" href="./index.css"> -->
   <meta name="description" content="Mesto">
   <meta name="keywords" content="Mesto, фото">
   <meta name="author" content="Юлия Жидкова">
@@ -12,13 +12,13 @@
 <body class="page">
   <!-- header -->
   <header class="header">
-    <img class="header__logo" src="./images/header-logo.svg" alt="Логотип Место Россия">
+    <img class="header__logo" src="<%=require('./images/header-logo.svg')%>" alt="Логотип Место Россия">
   </header>
   <!-- content -->
   <main class="content">
     <!-- profile -->
     <section class="profile">
-      <img class="profile__avatar" src="./images/profile-avatar.jpg" alt="фото профиля">
+      <img class="profile__avatar" src="<%=require('./images/profile-avatar.jpg')%>" alt="фото профиля">
       <div class="profile__info">
         <h1 class="profile__name">Жак-Ив Кусто</h1>
         <button class="profile__button-edit"></button>
@@ -95,8 +95,8 @@
       </div>
     </li> 
   </template>
-  <script type="module" src="./components/index.js"></script>
-  <script type="module" src="./components/utils.js"></script>
-  <script type="module" src="./components/card.js"></script>
-  <script type="module" src="./components/validate.js"></script>
+  <!-- <script type="module" src="./index.js"></script>
+  <script type="module" src="./utils.js"></script>
+  <script type="module" src="./card.js"></script>
+  <script type="module" src="./validate.js"></script> -->
 </body>

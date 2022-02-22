@@ -1,5 +1,6 @@
 import {likeCard, deleteCard, openCardImage, cards, popupAdd, cardNameInput, linkInput} from "./index.js";
-import {openPopup, closePopup} from "./utils.js";
+import {openPopup, closePopup} from "./utils.js"
+;
 
 const cardTemplate = document.querySelector('#card').content;
 
