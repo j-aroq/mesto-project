@@ -1,4 +1,4 @@
-import './index.css';
+import '../index.css';
 
 import {openPopup, closePopup} from "./utils.js";
 import {createCard, submitFotoHandler} from "./card.js";
