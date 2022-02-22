@@ -101,15 +101,16 @@ popupOverlay.forEach(function(item) {
 });
 
 // закрытие попапов по нажатию Esc
-document.addEventListener('keydown', function (evt) {
+export function closePopupByEsc(popup) {
   if (evt.key === 'Escape') {
     popupOverlay.forEach(function(item) {
       if (item.classList.contains('popup_opened')) {
         closePopup(item);          
+        document.removeEventListener('keydown', closePopupByEsc);
       }
     });
-  }
-});
+  }  
+}
 
 //edit profile
 editButton.addEventListener('click', function() {

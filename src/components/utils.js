@@ -1,5 +1,8 @@
+import {closePopupByEsc} from "./index.js";
+
 function openPopup(popup) {
     popup.classList.add('popup_opened');
+    document.addEventListener('keydown', closePopupByEsc);
 }
   
 function closePopup(popup) {
