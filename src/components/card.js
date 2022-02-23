@@ -1,5 +1,5 @@
 import {likeCard, deleteCard, openCardImage, cards, popupAdd, cardNameInput, linkInput} from "./index.js";
-import {openPopup, closePopup} from "./utils.js";
+import {openPopup, closePopup, resetForm, resetValidation} from "./utils.js";
 
 const cardTemplate = document.querySelector('#card').content;
 
@@ -19,6 +19,8 @@ function submitFotoHandler (evt) {
   const cardElement = createCard(linkInput.value, cardNameInput.value);
   cards.prepend(cardElement);
   closePopup(popupAdd);
+  resetForm(popupAdd);
+  resetValidation(popupAdd);
 }  
 
 export {createCard, submitFotoHandler};
