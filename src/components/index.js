@@ -1,6 +1,6 @@
 import '../index.css';
 
-import {openPopup, closePopup} from "./utils.js";
+import {openPopup, closePopup, resetForm, resetValidation} from "./utils.js";
 import {createCard, submitFotoHandler} from "./card.js";
 import {enableValidation} from "./validate.js";
 
@@ -12,7 +12,7 @@ const profession = profile.querySelector('.profile__profession');
 const editButton = profile.querySelector('.profile__button-edit');
 const addButton = profile.querySelector('.profile__button-add');
 
-const popupOverlay = document.querySelectorAll('.popup');
+const popupOverlays = document.querySelectorAll('.popup');
 
 const popupEdit = document.querySelector('#popup-edit');
 const formElement =  popupEdit.querySelector('.popup__form');
@@ -28,7 +28,7 @@ const popupOpenImage = document.querySelector('#popup-image');
 const popupImage =  popupOpenImage.querySelector('.popup__image');
 const popupImageTitle =  popupOpenImage.querySelector('.popup__image-title');
 
-const exitButton = document.querySelectorAll('.popup__button-exit');
+const exitButtons = document.querySelectorAll('.popup__button-exit');
 
 // cards
 const initialCards = [
@@ -85,30 +85,32 @@ export function deleteCard(cardElement) {
 }
 
 // закрытие попапов
-exitButton.forEach( function (item) {
+exitButtons.forEach( function (item) {
   item.addEventListener('click', function() {
     closePopup(item.closest('.popup'));
+    resetForm(item.closest('.popup'));
+    resetValidation(item.closest('.popup'));
   });    
 })
 
 // закрытие попапов по клику на оверлей
-popupOverlay.forEach(function(item) {
+popupOverlays.forEach(function(item) {
   item.addEventListener('click', function (evt) {
     if (evt.target.classList.contains('popup_opened')) {
       closePopup(evt.target);
+      resetForm(evt.target);
+      resetValidation(evt.target);
     }
   });
 });
 
 // закрытие попапов по нажатию Esc
-export function closePopupByEsc(popup) {
+export function closePopupByEsc(evt) {
   if (evt.key === 'Escape') {
-    popupOverlay.forEach(function(item) {
-      if (item.classList.contains('popup_opened')) {
-        closePopup(item);          
-        document.removeEventListener('keydown', closePopupByEsc);
-      }
-    });
+    const openedPopup = document.querySelector('.popup_opened');
+    closePopup(openedPopup);          
+    resetForm(openedPopup);
+    resetValidation(openedPopup);
   }  
 }
 
@@ -124,6 +126,8 @@ function submitHandler (evt) {
   profileName.textContent = nameInput.value;
   profession.textContent = jobInput.value; 
   closePopup(popupEdit);
+  resetForm(popupEdit);
+  resetValidation(popupEdit);
 }
 formElement.addEventListener('submit', submitHandler);
 

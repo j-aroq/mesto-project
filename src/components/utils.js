@@ -1,15 +1,24 @@
 import {closePopupByEsc} from "./index.js";
 
 function openPopup(popup) {
-    popup.classList.add('popup_opened');
-    document.addEventListener('keydown', closePopupByEsc);
+  popup.classList.add('popup_opened');
+  document.addEventListener('keydown', closePopupByEsc);
 }
   
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closePopupByEsc);
+}
+
+function resetForm(popup) {
   if (popup.querySelector('.popup__form') !== null) {
-    popup.querySelector('.popup__form').reset();
-    //сброс настроек валидации для корректного открытия попапа вновь
+    popup.querySelector('.popup__form').reset();  
+  }
+}
+
+//сброс настроек валидации для корректного открытия попапа c формой вновь
+function resetValidation(popup) {
+  if (popup.querySelector('.popup__form') !== null) {
     const buttonElement = popup.querySelector('.popup__button');
     buttonElement.disabled = true;
     buttonElement.classList.add('popup__button_disabled');
@@ -27,4 +36,4 @@ function closePopup(popup) {
   }
 }
 
-export {openPopup, closePopup};
+export {openPopup, closePopup, resetForm, resetValidation};
