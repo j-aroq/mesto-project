@@ -66,3 +66,22 @@ export const enableValidation = (config) => {
     setEventListeners(config, formElement);
   });
 };
+
+//сброс настроек валидации для корректного открытия попапа c формой вновь
+export function resetValidation(popup) {
+  const buttonElement = popup.querySelector('.popup__button');
+  buttonElement.disabled = true;
+  buttonElement.classList.add('popup__button_disabled');
+  popup.querySelectorAll('.popup__input-item').forEach((inputElement) => {
+    if (inputElement.classList.contains('popup__input-item_type_error')) {
+      inputElement.classList.remove('popup__input-item_type_error');        
+    }
+  });
+  popup.querySelectorAll('.popup__error').forEach((errorElement) => {
+    if (errorElement.classList.contains('popup__error_visible')) {
+      errorElement.classList.remove('popup__error_visible');        
+      errorElement.textContent = '';
+    }
+  });
+}
+
