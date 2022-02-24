@@ -1,8 +1,8 @@
 import '../index.css';
 
-import {openPopup, closePopup, resetForm, resetValidation} from "./utils.js";
+import {openPopup, closePopup, resetForm} from "./utils.js";
 import {createCard, submitFotoHandler} from "./card.js";
-import {enableValidation} from "./validate.js";
+import {enableValidation, resetValidation} from "./validate.js";
 
 export const cards = document.querySelector('.elements');
 
@@ -88,8 +88,6 @@ export function deleteCard(cardElement) {
 exitButtons.forEach( function (item) {
   item.addEventListener('click', function() {
     closePopup(item.closest('.popup'));
-    resetForm(item.closest('.popup'));
-    resetValidation(item.closest('.popup'));
   });    
 })
 
@@ -98,8 +96,6 @@ popupOverlays.forEach(function(item) {
   item.addEventListener('click', function (evt) {
     if (evt.target.classList.contains('popup_opened')) {
       closePopup(evt.target);
-      resetForm(evt.target);
-      resetValidation(evt.target);
     }
   });
 });
@@ -109,13 +105,13 @@ export function closePopupByEsc(evt) {
   if (evt.key === 'Escape') {
     const openedPopup = document.querySelector('.popup_opened');
     closePopup(openedPopup);          
-    resetForm(openedPopup);
-    resetValidation(openedPopup);
   }  
 }
 
 //edit profile
 editButton.addEventListener('click', function() {
+  resetForm(popupEdit);
+  resetValidation(popupEdit);
   openPopup(popupEdit);
   nameInput.value = profileName.textContent;
   jobInput.value = profession.textContent; 
@@ -126,13 +122,13 @@ function submitHandler (evt) {
   profileName.textContent = nameInput.value;
   profession.textContent = jobInput.value; 
   closePopup(popupEdit);
-  resetForm(popupEdit);
-  resetValidation(popupEdit);
 }
 formElement.addEventListener('submit', submitHandler);
 
 //add foto
 addButton.addEventListener('click', function() { 
+  resetForm(popupAdd);
+  resetValidation(popupAdd);
   openPopup(popupAdd);
 });
 
