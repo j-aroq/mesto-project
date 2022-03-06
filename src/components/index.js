@@ -11,8 +11,14 @@ const profileName = profile.querySelector('.profile__name');
 const profession = profile.querySelector('.profile__profession');
 const editButton = profile.querySelector('.profile__button-edit');
 const addButton = profile.querySelector('.profile__button-add');
+const avatar = profile.querySelector('.profile__avatar');
+const avatarEditButton = profile.querySelector('.profile__avatar-button-edit');
 
 const popupOverlays = document.querySelectorAll('.popup');
+
+const popupAvatarEdit = document.querySelector('#popup-avatar-edit');
+const formAvatarEdit =  popupAvatarEdit.querySelector('.popup__form');
+const linkInputOfAvatar = popupAvatarEdit.querySelector('.popup__input-item_type_link');
 
 const popupEdit = document.querySelector('#popup-edit');
 const formElement =  popupEdit.querySelector('.popup__form');
@@ -124,6 +130,28 @@ function submitHandler (evt) {
   closePopup(popupEdit);
 }
 formElement.addEventListener('submit', submitHandler);
+
+//edit avatar
+
+avatar.addEventListener('mouseover', function (evt) {
+  avatarEditButton.classList.add('profile__avatar-button-edit_visible');
+});
+avatarEditButton.addEventListener('mouseout', function (evt) {
+  avatarEditButton.classList.remove('profile__avatar-button-edit_visible');
+});
+
+avatarEditButton.addEventListener('click', function () {
+  resetForm(popupAvatarEdit);
+  resetValidation(popupAvatarEdit);
+  openPopup(popupAvatarEdit);
+});
+
+function submitAvatarHandler (evt) {
+  evt.preventDefault();
+  avatar.src = linkInputOfAvatar.value;
+  closePopup(popupAvatarEdit);
+}
+formAvatarEdit.addEventListener('submit', submitAvatarHandler);
 
 //add foto
 addButton.addEventListener('click', function() { 

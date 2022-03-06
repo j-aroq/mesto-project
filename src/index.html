@@ -19,6 +19,7 @@
     <!-- profile -->
     <section class="profile">
       <img class="profile__avatar" src="<%=require('./images/profile-avatar.jpg')%>" alt="фото профиля">
+      <button class="profile__avatar-button-edit"></button>
       <div class="profile__info">
         <h1 class="profile__name">Жак-Ив Кусто</h1>
         <button class="profile__button-edit"></button>
@@ -36,6 +37,22 @@
   <footer class="footer">
     <p class="footer__copyright">&copy; 2021 Mesto Russia</p>
   </footer>
+    <!-- popup avatar-edit -->
+  <section id="popup-avatar-edit" class="popup popup_opacity_medium">
+    <div class="popup__container">
+      <button class="popup__button-exit"></button>
+      <form name="new-avatar" class="popup__form" novalidate>
+        <h2 class="popup__title">Обновить аватар</h2>
+        <fieldset class="popup__fieldset">
+          <label for="avatar-url" class="popup__fieldset-item">
+            <input type="url" name="avatar-url" id="avatar-url" class="popup__input-item popup__input-item_type_link" placeholder="Ссылка на аватар" required>
+            <span class="popup__error avatar-url-error"></span>
+          </label>
+        </fieldset>
+        <button type="submit" class="popup__button" disabled>Сохранить</button>
+      </form> 
+    </div> 
+  </section>
   <!-- popup  edit -->
   <section id="popup-edit" class="popup popup_opacity_medium">
     <div class="popup__container">
