@@ -46,7 +46,6 @@ function getProfileInfoFromServer() {
   })
     .then(res => res.json())
     .then((result) => {
-      console.log(result);
       profileName.textContent = result.name;
       profession.textContent = result.about;
       avatar.src = result.avatar;
@@ -66,7 +65,7 @@ function getCardsFromServer() {
     .then(res => res.json())
     .then((result) => {
       result.forEach((item) => {
-        const cardElement = createCard(item.link, item.name);
+        const cardElement = createCard(item.link, item.name, item.likes, item._id);
         cards.append(cardElement);
       });
   });    
@@ -86,7 +85,34 @@ export function openCardImage(cardElement) {
 export function likeCard(cardElement) {
   cardElement.querySelector('.elements__like').addEventListener('click', function (evt) {
     evt.target.classList.toggle('elements__like_active');
-  }); 
+    const cardID = cardElement.dataset.id;
+    if (evt.target.classList.contains('elements__like_active')) {
+      fetch(`https://nomoreparties.co/v1/plus-cohort7/cards/likes/${cardID}`, {
+        method: 'PUT',
+        headers: {
+          authorization: '6b21ad07-0cb9-4f08-a794-2baa8a2f7c4c',
+          'Content-Type': 'application/json'
+        },
+      })
+      .then(res => res.json())
+      .then((result) => {
+        cardElement.querySelector('.elements__like-counter').textContent = result.likes.length;
+      });      
+    } else {
+      fetch(`https://nomoreparties.co/v1/plus-cohort7/cards/likes/${cardID}`, {
+        method: 'DELETE',
+        headers: {
+          authorization: '6b21ad07-0cb9-4f08-a794-2baa8a2f7c4c',
+          'Content-Type': 'application/json'
+        },
+      })            
+      .then(res => res.json())
+      .then((result) => {
+        cardElement.querySelector('.elements__like-counter').textContent = result.likes.length;
+      });      
+    }
+}); 
+  
 }
   
 export function deleteCard(cardElement) {

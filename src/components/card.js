@@ -3,11 +3,13 @@ import {openPopup, closePopup} from "./utils.js";
 
 const cardTemplate = document.querySelector('#card').content;
 
-function createCard(link, name) {
+function createCard(link, name, likes, cardID) {
   const cardElement = cardTemplate.querySelector('.elements__element').cloneNode(true);
   cardElement.querySelector('.elements__image').src = link;
   cardElement.querySelector('.elements__image').alt = name;
   cardElement.querySelector('.elements__title').textContent = name;
+  cardElement.querySelector('.elements__like-counter').textContent = likes.length;
+  cardElement.dataset.id = cardID;
   likeCard(cardElement);
   deleteCard(cardElement);
   openCardImage(cardElement);
