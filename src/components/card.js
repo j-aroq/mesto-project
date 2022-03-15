@@ -18,6 +18,19 @@ function submitFotoHandler (evt) {
   evt.preventDefault();
   const cardElement = createCard(linkInput.value, cardNameInput.value);
   cards.prepend(cardElement);
+
+  fetch('https://nomoreparties.co/v1/plus-cohort7/cards', {
+    method: 'POST',
+    headers: {
+      authorization: '6b21ad07-0cb9-4f08-a794-2baa8a2f7c4c',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      name: cardNameInput.value,
+      link: linkInput.value
+    })
+  });
+
   closePopup(popupAdd);
 }  
 

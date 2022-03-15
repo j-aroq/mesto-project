@@ -36,38 +36,43 @@ const popupImageTitle =  popupOpenImage.querySelector('.popup__image-title');
 
 const exitButtons = document.querySelectorAll('.popup__button-exit');
 
-// cards
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
+// profile info
+function getProfileInfoFromServer() {
+  return fetch('https://nomoreparties.co/v1/plus-cohort7/users/me', {
+    method: 'GET',
+    headers: {
+      authorization: '6b21ad07-0cb9-4f08-a794-2baa8a2f7c4c'
+    }
+  })
+    .then(res => res.json())
+    .then((result) => {
+      console.log(result);
+      profileName.textContent = result.name;
+      profession.textContent = result.about;
+      avatar.src = result.avatar;
+    });    
+}
 
-initialCards.forEach((item) => {
-  const cardElement = createCard(item.link, item.name);
-  cards.append(cardElement);
-});
+getProfileInfoFromServer();
+
+// cards
+function getCardsFromServer() {
+  return fetch('https://nomoreparties.co/v1/plus-cohort7/cards', {
+    method: 'GET',
+    headers: {
+      authorization: '6b21ad07-0cb9-4f08-a794-2baa8a2f7c4c'
+    }
+  })
+    .then(res => res.json())
+    .then((result) => {
+      result.forEach((item) => {
+        const cardElement = createCard(item.link, item.name);
+        cards.append(cardElement);
+      });
+  });    
+}
+
+getCardsFromServer();
 
 export function openCardImage(cardElement) {
   cardElement.querySelector('.elements__image').addEventListener('click', function () {
@@ -127,6 +132,19 @@ function submitHandler (evt) {
   evt.preventDefault(); 
   profileName.textContent = nameInput.value;
   profession.textContent = jobInput.value; 
+  
+  fetch('https://nomoreparties.co/v1/plus-cohort7/users/me', {
+    method: 'PATCH',
+    headers: {
+      authorization: '6b21ad07-0cb9-4f08-a794-2baa8a2f7c4c',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      name: nameInput.value,
+      about: jobInput.value
+    })
+  });
+
   closePopup(popupEdit);
 }
 formElement.addEventListener('submit', submitHandler);
