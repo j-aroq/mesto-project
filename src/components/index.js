@@ -1,13 +1,14 @@
 import '../index.css';
 
-import {openPopup, closePopup, resetForm} from "./utils.js";
-import {createCard, submitFotoHandler} from "./card.js";
+import {openPopup, closePopup, resetForm, renderLoading} from "./utils.js";
+import {uploadCards, createCard} from "./card.js";
 import {enableValidation, resetValidation} from "./validate.js";
+import {getCardsFromServer, getProfileInfoFromServer, loadCardToServer, countCardLikes, deleteCardFromServer, loadAvatarToServer, loadProfileInfoToServer} from "./api.js";
 
 export const cards = document.querySelector('.elements');
 
 const profile = document.querySelector('.profile');
-const profileName = profile.querySelector('.profile__name');
+export const profileName = profile.querySelector('.profile__name');
 const profession = profile.querySelector('.profile__profession');
 const editButton = profile.querySelector('.profile__button-edit');
 const addButton = profile.querySelector('.profile__button-add');
@@ -36,38 +37,24 @@ const popupImageTitle =  popupOpenImage.querySelector('.popup__image-title');
 
 const exitButtons = document.querySelectorAll('.popup__button-exit');
 
-// cards
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
+Promise.all([
+  getProfileInfoFromServer(),
+  getCardsFromServer(),
+])
+.then((results) => {
+  profileName.textContent = results[0].name;
+  profileName.dataset.id = results[0]._id;
+  profession.textContent = results[0].about;
+  avatar.src = results[0].avatar;
 
-initialCards.forEach((item) => {
-  const cardElement = createCard(item.link, item.name);
-  cards.append(cardElement);
-});
+  results[1].forEach((item) => {
+    const cardElement = uploadCards(item);
+    cards.append(cardElement);
+  });
+})
+.catch((err) => {
+  console.log(err);
+});    
 
 export function openCardImage(cardElement) {
   cardElement.querySelector('.elements__image').addEventListener('click', function () {
@@ -81,12 +68,37 @@ export function openCardImage(cardElement) {
 export function likeCard(cardElement) {
   cardElement.querySelector('.elements__like').addEventListener('click', function (evt) {
     evt.target.classList.toggle('elements__like_active');
-  }); 
+    const cardID = cardElement.dataset.id;
+    const likeMethod = '';
+    if (evt.target.classList.contains('elements__like_active')) {
+      countCardLikes(cardID, 'PUT')
+      .then((result) => {
+        cardElement.querySelector('.elements__like-counter').textContent = result.likes.length;
+      })          
+      .catch((err) => {
+        console.log(err);
+      });   
+    } else {
+      countCardLikes(cardID, 'DELETE')
+      .then((result) => {
+        cardElement.querySelector('.elements__like-counter').textContent = result.likes.length;
+      })
+      .catch((err) => {
+        console.log(err);
+      });             
+    }
+  });   
 }
   
 export function deleteCard(cardElement) {
   cardElement.querySelector('.elements__delete').addEventListener('click', function (evt) {
-    cardElement.remove();
+    deleteCardFromServer(cardElement.dataset.id)
+    .then((result) => {
+      cardElement.remove();
+    })
+    .catch((err) => {
+      console.log(err);
+    });        
   });
 }
 
@@ -125,8 +137,18 @@ editButton.addEventListener('click', function() {
   
 function submitHandler (evt) {
   evt.preventDefault(); 
-  profileName.textContent = nameInput.value;
-  profession.textContent = jobInput.value; 
+  renderLoading(true, evt);
+  loadProfileInfoToServer(nameInput, jobInput)
+  .then((result) => {
+    profileName.textContent = nameInput.value;
+    profession.textContent = jobInput.value; 
+  })
+  .catch((err) => {
+    console.log(err);
+  })      
+  .finally(() => {
+    renderLoading(false, evt);             
+  });
   closePopup(popupEdit);
 }
 formElement.addEventListener('submit', submitHandler);
@@ -148,7 +170,17 @@ avatarEditButton.addEventListener('click', function () {
 
 function submitAvatarHandler (evt) {
   evt.preventDefault();
-  avatar.src = linkInputOfAvatar.value;
+  renderLoading(true, evt);
+  loadAvatarToServer(linkInputOfAvatar)
+  .then((result) => {
+    avatar.src = linkInputOfAvatar.value;
+  })
+  .catch((err) => {
+    console.log(err);
+  })   
+  .finally(() => {
+    renderLoading(false, evt);             
+  });  
   closePopup(popupAvatarEdit);
 }
 formAvatarEdit.addEventListener('submit', submitAvatarHandler);
@@ -160,6 +192,24 @@ addButton.addEventListener('click', function() {
   openPopup(popupAdd);
 });
 
+function submitFotoHandler (evt) {
+  evt.preventDefault();
+  renderLoading(true, evt);
+
+  loadCardToServer(linkInput, cardNameInput)
+  .then((result) => {
+    const cardElement = createCard(linkInput.value, cardNameInput.value, result._id);
+    cards.prepend(cardElement);
+  })
+  .catch((err) => {
+    console.log(err);
+  })      
+  .finally(() => {
+    renderLoading(false, evt);             
+  });
+
+  closePopup(popupAdd);
+}  
 formAddElement.addEventListener('submit', submitFotoHandler);
 
 // валидация форм

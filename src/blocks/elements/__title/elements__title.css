@@ -7,4 +7,5 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  grid-row: 1/3;
 }
