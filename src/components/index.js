@@ -1,8 +1,9 @@
 import '../index.css';
 
 import {openPopup, closePopup, resetForm, renderLoading} from "./utils.js";
-import {uploadCards, submitFotoHandler} from "./card.js";
+import {uploadCards, createCard} from "./card.js";
 import {enableValidation, resetValidation} from "./validate.js";
+import {getCardsFromServer, getProfileInfoFromServer, loadCardToServer, countCardLikes, deleteCardFromServer, loadAvatarToServer, loadProfileInfoToServer} from "./api.js";
 
 export const cards = document.querySelector('.elements');
 
@@ -36,43 +37,27 @@ const popupImageTitle =  popupOpenImage.querySelector('.popup__image-title');
 
 const exitButtons = document.querySelectorAll('.popup__button-exit');
 
-// profile info
-function getProfileInfoFromServer() {
-  return fetch('https://nomoreparties.co/v1/plus-cohort7/users/me', {
-    method: 'GET',
-    headers: {
-      authorization: '6b21ad07-0cb9-4f08-a794-2baa8a2f7c4c'
-    }
-  })
-    .then(res => res.json())
-    .then((result) => {
-      profileName.textContent = result.name;
-      profileName.dataset.id = result._id;
-      profession.textContent = result.about;
-      avatar.src = result.avatar;
-    });    
-}
+getProfileInfoFromServer()
+.then((result) => {
+  profileName.textContent = result.name;
+  profileName.dataset.id = result._id;
+  profession.textContent = result.about;
+  avatar.src = result.avatar;
+})
+.catch((err) => {
+  console.log(err);
+});    
 
-getProfileInfoFromServer();
-
-// cards
-function getCardsFromServer() {
-  return fetch('https://nomoreparties.co/v1/plus-cohort7/cards', {
-    method: 'GET',
-    headers: {
-      authorization: '6b21ad07-0cb9-4f08-a794-2baa8a2f7c4c'
-    }
-  })
-    .then(res => res.json())
-    .then((result) => {
-      result.forEach((item) => {
-        const cardElement = uploadCards(item);
-        cards.append(cardElement);
-      });
-  });    
-}
-
-getCardsFromServer();
+getCardsFromServer()
+.then((result) => {
+  result.forEach((item) => {
+    const cardElement = uploadCards(item);
+    cards.append(cardElement);
+  });
+})
+.catch((err) => {
+  console.log(err);
+});     
 
 export function openCardImage(cardElement) {
   cardElement.querySelector('.elements__image').addEventListener('click', function () {
@@ -87,48 +72,36 @@ export function likeCard(cardElement) {
   cardElement.querySelector('.elements__like').addEventListener('click', function (evt) {
     evt.target.classList.toggle('elements__like_active');
     const cardID = cardElement.dataset.id;
+    const likeMethod = '';
     if (evt.target.classList.contains('elements__like_active')) {
-      fetch(`https://nomoreparties.co/v1/plus-cohort7/cards/likes/${cardID}`, {
-        method: 'PUT',
-        headers: {
-          authorization: '6b21ad07-0cb9-4f08-a794-2baa8a2f7c4c',
-          'Content-Type': 'application/json'
-        },
-      })
-      .then(res => res.json())
+      countCardLikes(cardID, 'PUT')
       .then((result) => {
         cardElement.querySelector('.elements__like-counter').textContent = result.likes.length;
-      });      
+      })          
+      .catch((err) => {
+        console.log(err);
+      });   
     } else {
-      fetch(`https://nomoreparties.co/v1/plus-cohort7/cards/likes/${cardID}`, {
-        method: 'DELETE',
-        headers: {
-          authorization: '6b21ad07-0cb9-4f08-a794-2baa8a2f7c4c',
-          'Content-Type': 'application/json'
-        },
-      })            
-      .then(res => res.json())
+      countCardLikes(cardID, 'DELETE')
       .then((result) => {
         cardElement.querySelector('.elements__like-counter').textContent = result.likes.length;
-      });      
+      })
+      .catch((err) => {
+        console.log(err);
+      });             
     }
-}); 
-  
+  });   
 }
   
 export function deleteCard(cardElement) {
   cardElement.querySelector('.elements__delete').addEventListener('click', function (evt) {
-    fetch(`https://nomoreparties.co/v1/plus-cohort7/cards/${cardElement.dataset.id}`, {
-      method: 'DELETE',
-      headers: {
-        authorization: '6b21ad07-0cb9-4f08-a794-2baa8a2f7c4c',
-        'Content-Type': 'application/json'
-      },
-    })            
-    .then(res => res.json())
+    deleteCardFromServer(cardElement.dataset.id)
     .then((result) => {
       cardElement.remove();
-    });      
+    })
+    .catch((err) => {
+      console.log(err);
+    });        
   });
 }
 
@@ -168,22 +141,14 @@ editButton.addEventListener('click', function() {
 function submitHandler (evt) {
   evt.preventDefault(); 
   renderLoading(true, evt);
-  fetch('https://nomoreparties.co/v1/plus-cohort7/users/me', {
-    method: 'PATCH',
-    headers: {
-      authorization: '6b21ad07-0cb9-4f08-a794-2baa8a2f7c4c',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      name: nameInput.value,
-      about: jobInput.value
-    })
-  })
-  .then(res => res.json())
+  loadProfileInfoToServer(nameInput, jobInput)
   .then((result) => {
     profileName.textContent = nameInput.value;
     profession.textContent = jobInput.value; 
-  })   
+  })
+  .catch((err) => {
+    console.log(err);
+  })      
   .finally(() => {
     renderLoading(false, evt);             
   });
@@ -209,20 +174,13 @@ avatarEditButton.addEventListener('click', function () {
 function submitAvatarHandler (evt) {
   evt.preventDefault();
   renderLoading(true, evt);
-  fetch('https://nomoreparties.co/v1/plus-cohort7/users/me/avatar', {
-    method: 'PATCH',
-    headers: {
-      authorization: '6b21ad07-0cb9-4f08-a794-2baa8a2f7c4c',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      avatar: linkInputOfAvatar.value,
-    })
-  })
-  .then(res => res.json())
+  loadAvatarToServer(linkInputOfAvatar)
   .then((result) => {
     avatar.src = linkInputOfAvatar.value;
   })
+  .catch((err) => {
+    console.log(err);
+  })   
   .finally(() => {
     renderLoading(false, evt);             
   });  
@@ -237,6 +195,24 @@ addButton.addEventListener('click', function() {
   openPopup(popupAdd);
 });
 
+function submitFotoHandler (evt) {
+  evt.preventDefault();
+  renderLoading(true, evt);
+
+  loadCardToServer(linkInput, cardNameInput)
+  .then((result) => {
+    const cardElement = createCard(linkInput.value, cardNameInput.value, result._id);
+    cards.prepend(cardElement);
+  })
+  .catch((err) => {
+    console.log(err);
+  })      
+  .finally(() => {
+    renderLoading(false, evt);             
+  });
+
+  closePopup(popupAdd);
+}  
 formAddElement.addEventListener('submit', submitFotoHandler);
 
 // валидация форм

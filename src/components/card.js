@@ -1,9 +1,8 @@
-import {likeCard, deleteCard, openCardImage, cards, popupAdd, cardNameInput, linkInput, profileName} from "./index.js";
-import {openPopup, closePopup, renderLoading} from "./utils.js";
+import {likeCard, deleteCard, openCardImage, cards, profileName} from "./index.js";
 
 const cardTemplate = document.querySelector('#card').content;
 
-function uploadCards(card) {
+export function uploadCards(card) {
   const cardElement = cardTemplate.querySelector('.elements__element').cloneNode(true);
   cardElement.querySelector('.elements__image').src = card.link;
   cardElement.querySelector('.elements__image').alt = card.name;
@@ -28,7 +27,7 @@ function uploadCards(card) {
   return cardElement;
 }
   
-function createCard(link, name, cardID) {
+export function createCard(link, name, cardID) {
   const cardElement = cardTemplate.querySelector('.elements__element').cloneNode(true);
   cardElement.querySelector('.elements__image').src = link;
   cardElement.querySelector('.elements__image').alt = name;
@@ -42,32 +41,3 @@ function createCard(link, name, cardID) {
   openCardImage(cardElement);
   return cardElement;
 }
-
-function submitFotoHandler (evt) {
-  evt.preventDefault();
-  renderLoading(true, evt);
-
-  fetch('https://nomoreparties.co/v1/plus-cohort7/cards', {
-    method: 'POST',
-    headers: {
-      authorization: '6b21ad07-0cb9-4f08-a794-2baa8a2f7c4c',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      name: cardNameInput.value,
-      link: linkInput.value
-    })  
-  })
-  .then(res => res.json())
-  .then((result) => {
-    const cardElement = createCard(linkInput.value, cardNameInput.value, result._id);
-    cards.prepend(cardElement);
-  })   
-  .finally(() => {
-    renderLoading(false, evt);             
-  });
-
-  closePopup(popupAdd);
-}  
-
-export {uploadCards, submitFotoHandler};

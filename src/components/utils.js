@@ -26,4 +26,11 @@ function renderLoading(isLoading, evt) {
   }
 }
 
-export {openPopup, closePopup, resetForm, renderLoading};
+function processStatus(res) {
+  if (res.ok) {
+    return res.json();
+  }
+  return Promise.reject(`Ошибка: ${res.status}`);
+}
+
+export {openPopup, closePopup, resetForm, renderLoading, processStatus};
