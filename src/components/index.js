@@ -1,13 +1,13 @@
 import '../index.css';
 
 import {openPopup, closePopup, resetForm} from "./utils.js";
-import {createCard, submitFotoHandler} from "./card.js";
+import {uploadCards, submitFotoHandler} from "./card.js";
 import {enableValidation, resetValidation} from "./validate.js";
 
 export const cards = document.querySelector('.elements');
 
 const profile = document.querySelector('.profile');
-const profileName = profile.querySelector('.profile__name');
+export const profileName = profile.querySelector('.profile__name');
 const profession = profile.querySelector('.profile__profession');
 const editButton = profile.querySelector('.profile__button-edit');
 const addButton = profile.querySelector('.profile__button-add');
@@ -47,6 +47,7 @@ function getProfileInfoFromServer() {
     .then(res => res.json())
     .then((result) => {
       profileName.textContent = result.name;
+      profileName.dataset.id = result._id;
       profession.textContent = result.about;
       avatar.src = result.avatar;
     });    
@@ -65,7 +66,7 @@ function getCardsFromServer() {
     .then(res => res.json())
     .then((result) => {
       result.forEach((item) => {
-        const cardElement = createCard(item.link, item.name, item.likes, item._id);
+        const cardElement = uploadCards(item);
         cards.append(cardElement);
       });
   });    
@@ -117,7 +118,17 @@ export function likeCard(cardElement) {
   
 export function deleteCard(cardElement) {
   cardElement.querySelector('.elements__delete').addEventListener('click', function (evt) {
-    cardElement.remove();
+    fetch(`https://nomoreparties.co/v1/plus-cohort7/cards/${cardElement.dataset.id}`, {
+      method: 'DELETE',
+      headers: {
+        authorization: '6b21ad07-0cb9-4f08-a794-2baa8a2f7c4c',
+        'Content-Type': 'application/json'
+      },
+    })            
+    .then(res => res.json())
+    .then((result) => {
+      cardElement.remove();
+    });      
   });
 }
 
