@@ -37,27 +37,24 @@ const popupImageTitle =  popupOpenImage.querySelector('.popup__image-title');
 
 const exitButtons = document.querySelectorAll('.popup__button-exit');
 
-getProfileInfoFromServer()
-.then((result) => {
-  profileName.textContent = result.name;
-  profileName.dataset.id = result._id;
-  profession.textContent = result.about;
-  avatar.src = result.avatar;
-})
-.catch((err) => {
-  console.log(err);
-});    
+Promise.all([
+  getProfileInfoFromServer(),
+  getCardsFromServer(),
+])
+.then((results) => {
+  profileName.textContent = results[0].name;
+  profileName.dataset.id = results[0]._id;
+  profession.textContent = results[0].about;
+  avatar.src = results[0].avatar;
 
-getCardsFromServer()
-.then((result) => {
-  result.forEach((item) => {
+  results[1].forEach((item) => {
     const cardElement = uploadCards(item);
     cards.append(cardElement);
   });
 })
 .catch((err) => {
   console.log(err);
-});     
+});    
 
 export function openCardImage(cardElement) {
   cardElement.querySelector('.elements__image').addEventListener('click', function () {
