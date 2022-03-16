@@ -1,5 +1,5 @@
 import {likeCard, deleteCard, openCardImage, cards, popupAdd, cardNameInput, linkInput, profileName} from "./index.js";
-import {openPopup, closePopup} from "./utils.js";
+import {openPopup, closePopup, renderLoading} from "./utils.js";
 
 const cardTemplate = document.querySelector('#card').content;
 
@@ -45,6 +45,7 @@ function createCard(link, name, cardID) {
 
 function submitFotoHandler (evt) {
   evt.preventDefault();
+  renderLoading(true, evt);
 
   fetch('https://nomoreparties.co/v1/plus-cohort7/cards', {
     method: 'POST',
@@ -61,7 +62,10 @@ function submitFotoHandler (evt) {
   .then((result) => {
     const cardElement = createCard(linkInput.value, cardNameInput.value, result._id);
     cards.prepend(cardElement);
-  });   
+  })   
+  .finally(() => {
+    renderLoading(false, evt);             
+  });
 
   closePopup(popupAdd);
 }  

@@ -1,6 +1,6 @@
 import '../index.css';
 
-import {openPopup, closePopup, resetForm} from "./utils.js";
+import {openPopup, closePopup, resetForm, renderLoading} from "./utils.js";
 import {uploadCards, submitFotoHandler} from "./card.js";
 import {enableValidation, resetValidation} from "./validate.js";
 
@@ -167,9 +167,7 @@ editButton.addEventListener('click', function() {
   
 function submitHandler (evt) {
   evt.preventDefault(); 
-  profileName.textContent = nameInput.value;
-  profession.textContent = jobInput.value; 
-  
+  renderLoading(true, evt);
   fetch('https://nomoreparties.co/v1/plus-cohort7/users/me', {
     method: 'PATCH',
     headers: {
@@ -180,8 +178,15 @@ function submitHandler (evt) {
       name: nameInput.value,
       about: jobInput.value
     })
+  })
+  .then(res => res.json())
+  .then((result) => {
+    profileName.textContent = nameInput.value;
+    profession.textContent = jobInput.value; 
+  })   
+  .finally(() => {
+    renderLoading(false, evt);             
   });
-
   closePopup(popupEdit);
 }
 formElement.addEventListener('submit', submitHandler);
@@ -203,7 +208,24 @@ avatarEditButton.addEventListener('click', function () {
 
 function submitAvatarHandler (evt) {
   evt.preventDefault();
-  avatar.src = linkInputOfAvatar.value;
+  renderLoading(true, evt);
+  fetch('https://nomoreparties.co/v1/plus-cohort7/users/me/avatar', {
+    method: 'PATCH',
+    headers: {
+      authorization: '6b21ad07-0cb9-4f08-a794-2baa8a2f7c4c',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      avatar: linkInputOfAvatar.value,
+    })
+  })
+  .then(res => res.json())
+  .then((result) => {
+    avatar.src = linkInputOfAvatar.value;
+  })
+  .finally(() => {
+    renderLoading(false, evt);             
+  });  
   closePopup(popupAvatarEdit);
 }
 formAvatarEdit.addEventListener('submit', submitAvatarHandler);
