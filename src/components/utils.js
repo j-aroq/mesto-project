@@ -1,4 +1,9 @@
-import {closePopupByEsc} from "./index.js";
+function closePopupByEsc(evt) {
+  if (evt.key === 'Escape') {
+    const openedPopup = document.querySelector('.popup_opened');
+    closePopup(openedPopup);          
+  }  
+}
 
 function openPopup(popup) {
   popup.classList.add('popup_opened');
